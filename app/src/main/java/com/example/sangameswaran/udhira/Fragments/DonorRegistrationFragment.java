@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -40,9 +41,10 @@ public class DonorRegistrationFragment extends Fragment {
     Button registerBtn;
     Context activityContext;
     RelativeLayout loader2;
+    LinearLayout containerLinear;
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.donor_registration_fragment,container,false);
         etDonorEmailId=(EditText)v.findViewById(R.id.etDonorEmailId);
         etDonorContactNumber=(EditText)v.findViewById(R.id.etDonorContactNumber);
@@ -50,7 +52,9 @@ public class DonorRegistrationFragment extends Fragment {
         etDateOfBirth=(EditText)v.findViewById(R.id.etDateOfBirth);
         loader2=(RelativeLayout)v.findViewById(R.id.loader2);
         etAddress=(EditText)v.findViewById(R.id.etDonorAddress);
+        containerLinear=(LinearLayout)v.findViewById(R.id.containerLinear);
         loader2.setVisibility(View.VISIBLE);
+        containerLinear.setVisibility(View.GONE);
         activityContext=getContext();
         etDonationComments=(EditText)v.findViewById(R.id.etDonationComments);
         bloodGroupSelector=(Spinner)v.findViewById(R.id.bloodGroupSpinner);
@@ -67,6 +71,7 @@ public class DonorRegistrationFragment extends Fragment {
                 ArrayAdapter<String> dataAdapter=new ArrayAdapter<String>(activityContext,android.R.layout.simple_spinner_item,bloodGroups);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 bloodGroupSelector.setAdapter(dataAdapter);
+                containerLinear.setVisibility(View.VISIBLE);
                 loader2.setVisibility(View.GONE);
             }
         },getContext());
@@ -108,7 +113,7 @@ public class DonorRegistrationFragment extends Fragment {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.cancel();
                                         DonorRegistrationFragment fragment=new DonorRegistrationFragment();
-                                        getFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
+                                        getFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
                                     }
                                 }).show();
                             }

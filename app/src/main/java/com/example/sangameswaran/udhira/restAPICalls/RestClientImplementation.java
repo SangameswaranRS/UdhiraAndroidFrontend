@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.sangameswaran.udhira.Constants.Constants;
 import com.example.sangameswaran.udhira.Entities.BloodGroupApiEntity;
+import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
 import com.example.sangameswaran.udhira.Entities.DonorRegistrationEntity;
 import com.example.sangameswaran.udhira.Entities.ErrorEntity;
 import com.example.sangameswaran.udhira.Entities.LoginEntity;
@@ -115,6 +116,29 @@ public class RestClientImplementation {
             e.printStackTrace();
             udhiraRestClientInterface.onSubmitDonorDetails(donorRegistrationEntity,new VolleyError());
         }
+    }
+
+    public static void getDonationCentresApi(final DonationCentreAPIEntity donationCentreAPIEntity, final DonationCentreAPIEntity.UdhiraRestClientInterface restClientInterface, final Context context){
+        String HIT_URL=getAbsoluteURL("/getCentreLocation");
+        final Gson gs=new Gson();
+        queue=VolleySingleton.getInstance(context).getRequestQueue();
+        JsonBaseRequest getRequest=new JsonBaseRequest(Request.Method.GET, HIT_URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                DonationCentreAPIEntity entity=gs.fromJson(String.valueOf(response),DonationCentreAPIEntity.class);
+                donationCentreAPIEntity.setMessage(entity.getMessage());
+                donationCentreAPIEntity.setStatusCode(entity.getStatusCode());
+                restClientInterface.onGetCentreDetails(donationCentreAPIEntity,null);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ErrorEntity errorEntity=gs.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
+                Toast.makeText(context,errorEntity.getMessage(),Toast.LENGTH_LONG).show();
+                restClientInterface.onGetCentreDetails(donationCentreAPIEntity,error);
+            }
+        });
+        queue.add(getRequest);
     }
 
 }

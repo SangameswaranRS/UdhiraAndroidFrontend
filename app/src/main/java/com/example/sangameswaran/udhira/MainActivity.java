@@ -9,12 +9,31 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
+import com.example.sangameswaran.udhira.Entities.DonationCentreEntity;
 import com.example.sangameswaran.udhira.Fragments.DonorRegistrationFragment;
+import com.example.sangameswaran.udhira.restAPICalls.RestClientImplementation;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     LinearLayout mapContainerLL;
     RelativeLayout contentMain;
+    List<DonationCentreEntity> donationCentreEntities;
+    public GoogleMap map;
+    public List<LatLng> bounds;
 
     @Override
     public void onBackPressed() {
@@ -54,8 +73,53 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         contentMain=(RelativeLayout)findViewById(R.id.content_main);
+        donationCentreEntities=new ArrayList<>();
+        bounds=new ArrayList<>();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         mapContainerLL=(LinearLayout)findViewById(R.id.mapContinerLL);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        DonationCentreAPIEntity donationCentreAPIEntity=new DonationCentreAPIEntity();
+        RestClientImplementation.getDonationCentresApi(donationCentreAPIEntity, new DonationCentreAPIEntity.UdhiraRestClientInterface() {
+            @Override
+            public void onGetCentreDetails(DonationCentreAPIEntity donationCentreAPIEntity, VolleyError error) {
+                if(error==null){
+                    if(donationCentreAPIEntity.getMessage().size()>0){
+                        donationCentreEntities=donationCentreAPIEntity.getMessage();
+                        plotCentres();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"No Donation Centres found on database",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }, this);
+    }
+
+    private void plotCentres() {
+        if(map!=null && donationCentreEntities.size()>0){
+            for(DonationCentreEntity iterator :donationCentreEntities){
+                map.addMarker(new MarkerOptions().position(new LatLng(iterator.getLattitude(),iterator.getLongitude())).title(iterator.getCentreName()));
+                bounds.add(new LatLng(iterator.getLattitude(),iterator.getLongitude()));
+            }
+            relativeZoom(bounds);
+        }
+    }
+
+    private void relativeZoom(List<LatLng> boundse){
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for(LatLng iterator: boundse){
+            builder.include(iterator);
+            LatLngBounds bounds = builder.build();
+            int padding = 200;
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            map.moveCamera(cu);
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map=googleMap;
+        plotCentres();
     }
 }
