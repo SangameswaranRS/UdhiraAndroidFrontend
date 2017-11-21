@@ -95,13 +95,19 @@ public class DonorRegistrationFragment extends Fragment {
                 String donorEmailId=etDonorEmailId.getText().toString();
                 String donorContactNumber=etDonorContactNumber.getText().toString();
                 String dateOfBirth=etDateOfBirth.getText().toString();
-                String donorWeight=etDonorWeight.getText().toString();
+                float donorWeight;
+                try {
+                    donorWeight=Float.parseFloat(etDonorWeight.getText().toString());
+                }catch (Exception e){
+                    donorWeight=0;
+                };
+
                 String donationComments=etDonationComments.getText().toString();
                 String donorAddress=etAddress.getText().toString();
                 String donorName=etDonorName.getText().toString();
                 int bloodGroupId=bloodGroupSelector.getSelectedItemPosition();
                 bloodGroupId++;
-                if(userEmailId.equals("")||donorEmailId.equals("")||donorContactNumber.equals("")||dateOfBirth.equals("")||donorWeight.equals("")||donationComments.equals("")||donorAddress.equals("")||gender.equals("")||donorName.equals("")){
+                if(userEmailId.equals("")||donorEmailId.equals("")||donorContactNumber.equals("")||dateOfBirth.equals("")||donationComments.equals("")||donorAddress.equals("")||gender.equals("")||donorName.equals("")||donorWeight==0){
                     Toast.makeText(activityContext,"Enter All the details",Toast.LENGTH_LONG).show();
                 }else {
                     DonorRegistrationEntity entity = new DonorRegistrationEntity(userEmailId, donorEmailId, donorContactNumber, gender, donorWeight, dateOfBirth, donorAddress, donationComments, bloodGroupId,donorName);

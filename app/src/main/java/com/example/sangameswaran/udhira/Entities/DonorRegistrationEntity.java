@@ -7,10 +7,11 @@ import com.android.volley.VolleyError;
  */
 
 public class DonorRegistrationEntity {
-    String userEmailId,donorEmailId,donorContactNumber,gender,donorWeight,dateOfBirth,address,donationComments,donorName;
+    String userEmailId,donorEmailId,donorContactNumber,gender,dateOfBirth,address,donationComments,donorName;
+    float donorWeight;
     int bloodGroupId;
 
-    public DonorRegistrationEntity(String userEmailId, String donorEmailId, String donorContactNumber, String gender, String donorWeight, String dateOfBirth, String address, String donationComments, int bloodGroupId,String donorName) {
+    public DonorRegistrationEntity(String userEmailId, String donorEmailId, String donorContactNumber, String gender, float donorWeight, String dateOfBirth, String address, String donationComments, int bloodGroupId,String donorName) {
         this.userEmailId = userEmailId;
         this.donorEmailId = donorEmailId;
         this.donorContactNumber = donorContactNumber;
@@ -26,6 +27,14 @@ public class DonorRegistrationEntity {
 
     public String getDonorName() {
         return donorName;
+    }
+
+    public float getDonorWeight() {
+        return donorWeight;
+    }
+
+    public void setDonorWeight(float donorWeight) {
+        this.donorWeight = donorWeight;
     }
 
     public void setDonorName(String donorName) {
@@ -67,13 +76,7 @@ public class DonorRegistrationEntity {
         this.gender = gender;
     }
 
-    public String getDonorWeight() {
-        return donorWeight;
-    }
 
-    public void setDonorWeight(String donorWeight) {
-        this.donorWeight = donorWeight;
-    }
 
     public String getDateOfBirth() {
         return dateOfBirth;

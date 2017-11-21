@@ -28,6 +28,7 @@
         android:id="@+id/content_main"
         android:layout_below="@+id/actionBar"
         android:layout_width="match_parent"
+        android:layout_above="@+id/sep"
         android:layout_height="wrap_content">
     </RelativeLayout>
 
