@@ -4,12 +4,13 @@
     android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/containerLinear">
+        android:id="@+id/containerLinear"
+        android:visibility="visible">
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,6 +110,18 @@
                 android:id="@+id/etDonorAddress"
                 android:drawableLeft="@drawable/location_icon"
                 android:hint="enter donor's address"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textAutoComplete"
+                android:id="@+id/etDonorName"
+                android:drawableLeft="@drawable/user_icon"
+                android:hint="enter donor's Name"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <Button

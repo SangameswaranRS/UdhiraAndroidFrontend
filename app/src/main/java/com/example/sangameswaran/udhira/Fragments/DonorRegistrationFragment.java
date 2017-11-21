@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 
 public class DonorRegistrationFragment extends Fragment {
-    EditText etDonorEmailId,etDonorContactNumber,etDonorWeight,etDateOfBirth,etDonationComments,etAddress;
+    EditText etDonorEmailId,etDonorContactNumber,etDonorWeight,etDateOfBirth,etDonationComments,etAddress,etDonorName;
     Spinner bloodGroupSelector;
     RadioGroup genderSelector;
     String gender="";
@@ -48,6 +48,7 @@ public class DonorRegistrationFragment extends Fragment {
         View v=inflater.inflate(R.layout.donor_registration_fragment,container,false);
         etDonorEmailId=(EditText)v.findViewById(R.id.etDonorEmailId);
         etDonorContactNumber=(EditText)v.findViewById(R.id.etDonorContactNumber);
+        etDonorName=(EditText)v.findViewById(R.id.etDonorName);
         etDonorWeight=(EditText)v.findViewById(R.id.etDonorWeight);
         etDateOfBirth=(EditText)v.findViewById(R.id.etDateOfBirth);
         loader2=(RelativeLayout)v.findViewById(R.id.loader2);
@@ -97,16 +98,19 @@ public class DonorRegistrationFragment extends Fragment {
                 String donorWeight=etDonorWeight.getText().toString();
                 String donationComments=etDonationComments.getText().toString();
                 String donorAddress=etAddress.getText().toString();
+                String donorName=etDonorName.getText().toString();
                 int bloodGroupId=bloodGroupSelector.getSelectedItemPosition();
                 bloodGroupId++;
-                if(userEmailId.equals("")||donorEmailId.equals("")||donorContactNumber.equals("")||dateOfBirth.equals("")||donorWeight.equals("")||donationComments.equals("")||donorAddress.equals("")||gender.equals("")){
+                if(userEmailId.equals("")||donorEmailId.equals("")||donorContactNumber.equals("")||dateOfBirth.equals("")||donorWeight.equals("")||donationComments.equals("")||donorAddress.equals("")||gender.equals("")||donorName.equals("")){
                     Toast.makeText(activityContext,"Enter All the details",Toast.LENGTH_LONG).show();
                 }else {
-                    DonorRegistrationEntity entity = new DonorRegistrationEntity(userEmailId, donorEmailId, donorContactNumber, gender, donorWeight, dateOfBirth, donorAddress, donationComments, bloodGroupId);
+                    DonorRegistrationEntity entity = new DonorRegistrationEntity(userEmailId, donorEmailId, donorContactNumber, gender, donorWeight, dateOfBirth, donorAddress, donationComments, bloodGroupId,donorName);
+                    loader2.setVisibility(View.VISIBLE);
                     RestClientImplementation.postDonorInfoApi(entity, new DonorRegistrationEntity.UdhiraRestClientInterface() {
                         @Override
                         public void onSubmitDonorDetails(DonorRegistrationEntity donorRegistrationEntity, VolleyError error) {
                             if(error==null){
+                                loader2.setVisibility(View.GONE);
                                 AlertDialog.Builder successResponse=new AlertDialog.Builder(activityContext);
                                 successResponse.setTitle("Donor Registered").setMessage("Donor Info Successfully registered").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
@@ -116,6 +120,8 @@ public class DonorRegistrationFragment extends Fragment {
                                         getFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
                                     }
                                 }).show();
+                            }else {
+                                loader2.setVisibility(View.GONE);
                             }
                         }
                     },activityContext);

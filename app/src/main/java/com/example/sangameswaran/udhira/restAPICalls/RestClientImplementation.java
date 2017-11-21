@@ -15,6 +15,7 @@ import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
 import com.example.sangameswaran.udhira.Entities.DonorRegistrationEntity;
 import com.example.sangameswaran.udhira.Entities.ErrorEntity;
 import com.example.sangameswaran.udhira.Entities.LoginEntity;
+import com.example.sangameswaran.udhira.Entities.SignupEntity;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -53,10 +54,14 @@ public class RestClientImplementation {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    ErrorEntity errorEntity;
-                    errorEntity=gson.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
-                    loginEntity.setImeiIndex(errorEntity.getMessage());
-                    restClientInterface.onLoginInfoSubmit(loginEntity,error);
+                    try {
+                        ErrorEntity errorEntity;
+                        errorEntity = gson.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                        loginEntity.setImeiIndex(errorEntity.getMessage());
+                        restClientInterface.onLoginInfoSubmit(loginEntity, error);
+                    }catch (Exception e){
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             queue.add(postRequest);
@@ -81,9 +86,13 @@ public class RestClientImplementation {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                ErrorEntity errorEntity=gson.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
-                Toast.makeText(context,error.getMessage(),Toast.LENGTH_LONG).show();
-                udhiraRestClientInterface.onGetBloodGroup(bloodGroupApiEntity1,error);
+                try {
+                    ErrorEntity errorEntity = gson.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                    udhiraRestClientInterface.onGetBloodGroup(bloodGroupApiEntity1, error);
+                }catch (Exception e){
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
         queue.add(postRequest);
@@ -106,9 +115,13 @@ public class RestClientImplementation {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    ErrorEntity errorEntity=gson.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
-                    Toast.makeText(context,errorEntity.getMessage(),Toast.LENGTH_LONG).show();
-                    udhiraRestClientInterface.onSubmitDonorDetails(donorRegistrationEntity,error);
+                    try {
+                        ErrorEntity errorEntity = gson.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                        Toast.makeText(context, errorEntity.getMessage(), Toast.LENGTH_LONG).show();
+                        udhiraRestClientInterface.onSubmitDonorDetails(donorRegistrationEntity, error);
+                    }catch (Exception e){
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             queue.add(postRequest);
@@ -133,12 +146,55 @@ public class RestClientImplementation {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                ErrorEntity errorEntity=gs.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
-                Toast.makeText(context,errorEntity.getMessage(),Toast.LENGTH_LONG).show();
-                restClientInterface.onGetCentreDetails(donationCentreAPIEntity,error);
+                try {
+                    ErrorEntity errorEntity = gs.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                    Toast.makeText(context, errorEntity.getMessage(), Toast.LENGTH_LONG).show();
+                    restClientInterface.onGetCentreDetails(donationCentreAPIEntity, error);
+                }catch (Exception e){
+                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
         queue.add(getRequest);
+    }
+
+    public static void signUpApi(final SignupEntity entity, final SignupEntity.UdhiraRestClientInterface restClientInterface, final Context context){
+        String HIT_URL=getAbsoluteURL("/register");
+        final Gson gs=new Gson();
+        queue=VolleySingleton.getInstance(context).getRequestQueue();
+        String postParamJsonString=gs.toJson(entity);
+        try {
+            JSONObject postParams=new JSONObject(postParamJsonString);
+            JsonBaseRequest postRequest=new JsonBaseRequest(Request.Method.POST, HIT_URL, postParams, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        ErrorEntity errorEntity = gs.fromJson(String.valueOf(response), ErrorEntity.class);
+                        Toast.makeText(context, errorEntity.getMessage(), Toast.LENGTH_LONG).show();
+                        restClientInterface.onGettingResponse(entity, null);
+                    }catch (Exception e){
+                        restClientInterface.onGettingResponse(entity,new VolleyError());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        ErrorEntity errorEntity = new ErrorEntity();
+                        errorEntity=gs.fromJson((new String(error.networkResponse.data)),ErrorEntity.class);
+                        Toast.makeText(context,errorEntity.getStatusCode()+":"+errorEntity.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.onGettingResponse(entity,error);
+                    }catch (Exception e){
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.onGettingResponse(entity,error);
+                    }
+                }
+            });
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

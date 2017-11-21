@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.sangameswaran.udhira.Entities.LoginEntity;
+import com.example.sangameswaran.udhira.Entities.SignupEntity;
 import com.example.sangameswaran.udhira.restAPICalls.RestClientImplementation;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -30,6 +32,8 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import static android.view.View.GONE;
+
 /**
  * Created by Sangameswaran on 20-11-2017.
  */
@@ -40,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etLoginPassword;
     TextView tvLoginButton;
     TextView tvLoaderMessage;
+    TextView tvSignupGateway;
     AlertDialog.Builder permissionChecker;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +55,20 @@ public class LoginActivity extends AppCompatActivity {
         etLoginUserName=(EditText)findViewById(R.id.etLoginUserName);
         etLoginPassword=(EditText)findViewById(R.id.etLoginPassword);
         tvLoginButton=(TextView) findViewById(R.id.tvLoginButton);
+        tvSignupGateway=(TextView)findViewById(R.id.tvSignupGateway);
         progressLL=(LinearLayout)findViewById(R.id.progressLL);
         tvLoaderMessage=(TextView)findViewById(R.id.tvLoginLoaderMessage);
-        containerll.setVisibility(View.GONE);
-        tvLoginButton.setVisibility(View.GONE);
+        containerll.setVisibility(GONE);
+        tvLoginButton.setVisibility(GONE);
         progressLL.setVisibility(View.VISIBLE);
         tvLoaderMessage.setText("Checking local storage...");
+        tvSignupGateway.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
         tvLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,9 +76,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password=etLoginPassword.getText().toString();
                 TelephonyManager tm= (TelephonyManager) LoginActivity.this.getSystemService(TELEPHONY_SERVICE);
                 String actualImei=tm.getDeviceId();
-                containerll.setVisibility(View.GONE);
-                tvLoginButton.setVisibility(View.GONE);
+                containerll.setVisibility(GONE);
+                tvLoginButton.setVisibility(GONE);
                 progressLL.setVisibility(View.VISIBLE);
+                tvSignupGateway.setVisibility(GONE);
                 tvLoaderMessage.setText("Getting response from the server...");
                 SharedPreferences sharedPreferences=getSharedPreferences("loginCredentials",MODE_PRIVATE);
                 SharedPreferences.Editor editor=sharedPreferences.edit();
@@ -82,9 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         }else{
                             Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
-                            progressLL.setVisibility(View.GONE);
+                            progressLL.setVisibility(GONE);
                             containerll.setVisibility(View.VISIBLE);
                             tvLoginButton.setVisibility(View.VISIBLE);
+                            tvSignupGateway.setVisibility(View.VISIBLE);
                             etLoginUserName.setText(loginEntity.getUserEmailId());
                             etLoginPassword.setText(loginEntity.getPassword());
                         }
@@ -96,13 +111,15 @@ public class LoginActivity extends AppCompatActivity {
         if(checkSharedPreferenceForCredential()){
             loginAction();
         }else {
-            progressLL.setVisibility(View.GONE);
+            progressLL.setVisibility(GONE);
             containerll.setVisibility(View.VISIBLE);
             tvLoginButton.setVisibility(View.VISIBLE);
+            tvSignupGateway.setVisibility(View.VISIBLE);
         }
     }
 
     private void loginAction() {
+        tvSignupGateway.setVisibility(GONE);
         tvLoaderMessage.setText("Getting response from the server...");
         SharedPreferences sp=getSharedPreferences("loginCredentials",MODE_PRIVATE);
         String userEmailId=sp.getString("userEmailId","NA");
@@ -119,8 +136,9 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else{
                     Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
-                    progressLL.setVisibility(View.GONE);
+                    progressLL.setVisibility(GONE);
                     containerll.setVisibility(View.VISIBLE);
+                    tvSignupGateway.setVisibility(View.VISIBLE);
                     tvLoginButton.setVisibility(View.VISIBLE);
                     etLoginUserName.setText(loginEntity.getUserEmailId());
                     etLoginPassword.setText(loginEntity.getPassword());
