@@ -57,6 +57,7 @@ public class SignupActivity extends AppCompatActivity{
             @Override
             public void onGetBloodGroup(BloodGroupApiEntity bloodGroupApiEntity, VolleyError error) {
                 if(error==null){
+
                     loader4.setVisibility(View.GONE);
                     signUpContainerLinearLayout.setVisibility(View.VISIBLE);
                     for(BloodEntity iterator : bloodGroupApiEntity.getMessage()){
