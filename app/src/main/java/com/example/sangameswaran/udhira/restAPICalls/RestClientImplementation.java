@@ -10,11 +10,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.sangameswaran.udhira.Constants.Constants;
+import com.example.sangameswaran.udhira.Entities.AuthPostParamEntity;
 import com.example.sangameswaran.udhira.Entities.BloodGroupApiEntity;
 import com.example.sangameswaran.udhira.Entities.BloodRequestEntity;
 import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
 import com.example.sangameswaran.udhira.Entities.DonorRegistrationEntity;
 import com.example.sangameswaran.udhira.Entities.ErrorEntity;
+import com.example.sangameswaran.udhira.Entities.GetAllDonorInfoApiEntity;
 import com.example.sangameswaran.udhira.Entities.LoginEntity;
 import com.example.sangameswaran.udhira.Entities.SignupEntity;
 import com.google.gson.Gson;
@@ -235,6 +237,76 @@ public class RestClientImplementation {
             e.printStackTrace();
         }
 
+    }
+
+    public static void postAuthEntityForVerification(final AuthPostParamEntity authPostParamEntity, final AuthPostParamEntity.UdhiraRestClientInterface restClientInterface, final Context context){
+        String HIT_URL=getAbsoluteURL("/checkFirebase");
+        queue=VolleySingleton.getInstance(context).getRequestQueue();
+        final Gson gs=new Gson();
+        String postParamString=gs.toJson(authPostParamEntity);
+        try {
+            JSONObject postParam=new JSONObject(postParamString);
+            JsonBaseRequest postRequest=new JsonBaseRequest(Request.Method.POST, HIT_URL, postParam, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    ErrorEntity errorEntity=gs.fromJson(response.toString(),ErrorEntity.class);
+                    Toast.makeText(context,errorEntity.getMessage(),Toast.LENGTH_LONG).show();
+                    restClientInterface.postAuthParams(authPostParamEntity,null);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        ErrorEntity errorEntity = gs.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                        Toast.makeText(context, errorEntity.getMessage(), Toast.LENGTH_LONG).show();
+                        restClientInterface.postAuthParams(authPostParamEntity,error);
+                    }catch (Exception e){
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.postAuthParams(authPostParamEntity,error);
+                    }
+                }
+            });
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+            restClientInterface.postAuthParams(authPostParamEntity,new VolleyError());
+        }
+
+    }
+
+    public static void getAllDonorInfoApi(AuthPostParamEntity authParam, final GetAllDonorInfoApiEntity.UdhiraRestClientInterface restClientInterface, final Context context){
+        String HIT_URL=getAbsoluteURL("/getAllDonorInfo");
+        queue=VolleySingleton.getInstance(context).getRequestQueue();
+        final Gson gson=new Gson();
+        String jsonString=gson.toJson(authParam);
+        try {
+            JSONObject jsonObject=new JSONObject(jsonString);
+            JsonBaseRequest postRequest=new JsonBaseRequest(Request.Method.POST, HIT_URL, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    GetAllDonorInfoApiEntity allDonorInfoApiEntity=gson.fromJson(response.toString(),GetAllDonorInfoApiEntity.class);
+                    restClientInterface.onGetAllDonorInfo(allDonorInfoApiEntity,null);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        ErrorEntity errorEntity = gson.fromJson(new String(error.networkResponse.data), ErrorEntity.class);
+                        Toast.makeText(context, errorEntity.getMessage(), Toast.LENGTH_LONG).show();
+                        restClientInterface.onGetAllDonorInfo(new GetAllDonorInfoApiEntity(),error);
+                    }catch (Exception e){
+                        Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.onGetAllDonorInfo(new GetAllDonorInfoApiEntity(),error);
+                    }
+                }
+            });
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+            restClientInterface.onGetAllDonorInfo(new GetAllDonorInfoApiEntity(),new VolleyError());
+        }
     }
 
 }

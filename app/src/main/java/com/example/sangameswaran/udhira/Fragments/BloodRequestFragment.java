@@ -92,6 +92,10 @@ public class BloodRequestFragment extends Fragment {
                     age=0;
                     emergencyStatus=0;
                 }
+                if(emergencyStatus>100||emergencyStatus<0){
+                    emergencyStatus=0;
+                    etEmergencyStatus.setError("Invalid");
+                }
                 if(PatientAge.equals("")||PatientName.equals("")||PatientHospital.equals("")||Reason.equals("")||PatientContactNumber.equals("")||bloodId==0||emergencyStatus==0){
                     Toast.makeText(getActivity(),"Enter all the details to raise request",Toast.LENGTH_LONG).show();
                 }else {

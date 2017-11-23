@@ -69,6 +69,8 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation"
+        app:elevation="30dp"
         android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>

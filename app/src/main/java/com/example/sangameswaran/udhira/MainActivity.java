@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
 import com.example.sangameswaran.udhira.Entities.DonationCentreEntity;
+import com.example.sangameswaran.udhira.Fragments.AdminFragment;
 import com.example.sangameswaran.udhira.Fragments.BloodRequestFragment;
 import com.example.sangameswaran.udhira.Fragments.DonorRegistrationFragment;
 import com.example.sangameswaran.udhira.restAPICalls.RestClientImplementation;
@@ -65,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment1).commit();
                     return true;
                 case R.id.admin:
+                    mapContainerLL.setVisibility(View.GONE);
+                    contentMain.setVisibility(View.VISIBLE);
+                    AdminFragment fragment2=new AdminFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_main,fragment2).commit();
                     return true;
             }
             return false;
