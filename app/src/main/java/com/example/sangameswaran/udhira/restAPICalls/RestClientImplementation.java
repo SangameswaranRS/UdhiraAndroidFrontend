@@ -16,9 +16,11 @@ import com.example.sangameswaran.udhira.Entities.BloodRequestEntity;
 import com.example.sangameswaran.udhira.Entities.DonationCentreAPIEntity;
 import com.example.sangameswaran.udhira.Entities.DonorRegistrationEntity;
 import com.example.sangameswaran.udhira.Entities.ErrorEntity;
+import com.example.sangameswaran.udhira.Entities.GetAllBloodRequestsApiEntity;
 import com.example.sangameswaran.udhira.Entities.GetAllDonorInfoApiEntity;
 import com.example.sangameswaran.udhira.Entities.LoginEntity;
 import com.example.sangameswaran.udhira.Entities.SignupEntity;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -309,4 +311,42 @@ public class RestClientImplementation {
         }
     }
 
+    public static void getAllBloodRequestsApi(final AuthPostParamEntity entity, final GetAllBloodRequestsApiEntity.UdhiraRestClientInterface restClientInterface, final Context context)  {
+        String API_URL=getAbsoluteURL("/getAllBloodRequests");
+        queue=VolleySingleton.getInstance(context).getRequestQueue();
+        final Gson gs=new Gson();
+        String postParamString=gs.toJson(entity);
+        try {
+            JSONObject jsonObject=new JSONObject(postParamString);
+            JsonBaseRequest postRequest=new JsonBaseRequest(Request.Method.POST, API_URL, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        GetAllBloodRequestsApiEntity entity1 = gs.fromJson(response.toString(), GetAllBloodRequestsApiEntity.class);
+                        restClientInterface.onGettingAllBloodRequests(entity1,null);
+                    }catch (Exception e){
+                        restClientInterface.onGettingAllBloodRequests(new GetAllBloodRequestsApiEntity(),new VolleyError());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try{
+                        ErrorEntity errorEntity=new ErrorEntity();
+                        errorEntity=gs.fromJson(new String(error.networkResponse.data),ErrorEntity.class);
+                        Toast.makeText(context,errorEntity.getStatusCode() +":"+errorEntity.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.onGettingAllBloodRequests(new GetAllBloodRequestsApiEntity(),error);
+                    }catch (Exception e){
+                        Toast.makeText(context,"Exception : "+e.getMessage(),Toast.LENGTH_LONG).show();
+                        restClientInterface.onGettingAllBloodRequests(new GetAllBloodRequestsApiEntity(),error);
+                    }
+                }
+            });
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(context,"Exception : "+e.getMessage(),Toast.LENGTH_LONG).show();
+            restClientInterface.onGettingAllBloodRequests(new GetAllBloodRequestsApiEntity(),new VolleyError());
+        }
+    }
 }

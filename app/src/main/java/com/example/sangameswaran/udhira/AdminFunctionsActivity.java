@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.sangameswaran.udhira.Fragments.GetBloodRequestsFragment;
 import com.example.sangameswaran.udhira.Fragments.GetDonorInfoFragment;
 
 /**
@@ -20,12 +21,15 @@ public class AdminFunctionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_functions);
         navigationView= (BottomNavigationView) findViewById(R.id.navigation2);
+        GetBloodRequestsFragment fragment1=new GetBloodRequestsFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main_two,fragment1).commit();
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.btmNavBloodRequests:
-
+                        GetBloodRequestsFragment fragment1=new GetBloodRequestsFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_main_two,fragment1).commit();
                         return true;
                     case R.id.btmNavUserInfo:
                         GetDonorInfoFragment fragment=new GetDonorInfoFragment();

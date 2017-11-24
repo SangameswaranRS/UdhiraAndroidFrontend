@@ -51,7 +51,6 @@ public class GetDonorInfoFragment extends Fragment {
             @Override
             public void onGetBloodGroup(BloodGroupApiEntity bloodGroupApiEntity, VolleyError error) {
                 if(error==null){
-                    loader5.setVisibility(View.GONE);
                     for(BloodEntity iterator : bloodGroupApiEntity.getMessage()){
                         blood.add(iterator.getBloodGroup());
                     }
@@ -63,6 +62,7 @@ public class GetDonorInfoFragment extends Fragment {
                         @Override
                         public void onGetAllDonorInfo(GetAllDonorInfoApiEntity apiEntity, VolleyError error) {
                             if(error==null){
+                                loader5.setVisibility(View.GONE);
                                 donors=apiEntity.getMessage();
                                 adapter=new DonorInfoRecyclerViewAdapter(donors,blood,getContext());
                                 donorInfoRecyclerView.setAdapter(adapter);
