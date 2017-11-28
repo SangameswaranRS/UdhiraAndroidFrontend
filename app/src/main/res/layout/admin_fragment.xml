@@ -30,7 +30,7 @@
             android:id="@+id/etadminPassword"
             android:inputType="textPassword"
             android:hint="Enter password"
-            android:drawableLeft="@drawable/user_icon"/>
+            android:drawableLeft="@drawable/password_icon"/>
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
     <Button
@@ -45,6 +45,7 @@
         android:text="Request Access"
         android:textColor="#ffff" />
     <ProgressBar
+        android:indeterminateDrawable="@anim/progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/requestLoginProgressBar"

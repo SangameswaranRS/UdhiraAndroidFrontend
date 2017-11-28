@@ -1,22 +1,33 @@
 package com.example.sangameswaran.udhira.Adapters;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.sangameswaran.udhira.Entities.BloodRequestEntity;
+import com.example.sangameswaran.udhira.Entities.ErrorEntity;
 import com.example.sangameswaran.udhira.Entities.GetBloodRequestEntity;
+import com.example.sangameswaran.udhira.Entities.PostSatisfiedRequestEntity;
+import com.example.sangameswaran.udhira.Fragments.GetBloodRequestsFragment;
 import com.example.sangameswaran.udhira.R;
+import com.example.sangameswaran.udhira.restAPICalls.RestClientImplementation;
 
 import org.w3c.dom.Text;
 
@@ -31,11 +42,12 @@ public class BloodRequestsRecyclerViewAdapter extends RecyclerView.Adapter<Blood
     List<GetBloodRequestEntity> bloodRequests=new ArrayList<>();
     List<String> blood=new ArrayList<>();
     Context context;
-
-    public BloodRequestsRecyclerViewAdapter(List<GetBloodRequestEntity> bloodRequests, List<String> blood, Context context) {
+    GetBloodRequestsFragment baseFragment;
+    public BloodRequestsRecyclerViewAdapter(List<GetBloodRequestEntity> bloodRequests, List<String> blood, Context context,GetBloodRequestsFragment baseFragment) {
         this.bloodRequests = bloodRequests;
         this.blood = blood;
         this.context = context;
+        this.baseFragment=baseFragment;
     }
 
     @Override
@@ -65,7 +77,7 @@ public class BloodRequestsRecyclerViewAdapter extends RecyclerView.Adapter<Blood
         holder.tvCallPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Calling donor please wait",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Calling patient please wait",Toast.LENGTH_LONG).show();
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bloodRequests.get(position).getContactNumber()));
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -80,6 +92,48 @@ public class BloodRequestsRecyclerViewAdapter extends RecyclerView.Adapter<Blood
                 context.startActivity(callIntent);
             }
         });
+        holder.card.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(bloodRequests.get(position).getIsSatisfied()==0){
+                    final AlertDialog.Builder alert=new AlertDialog.Builder(context);
+                    alert.setMessage("Has the request been satisfied?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            PostSatisfiedRequestEntity requestEntity=new PostSatisfiedRequestEntity(bloodRequests.get(position).getRequestId(),1);
+                            baseFragment.rvBloodRequest.setVisibility(View.GONE);
+                            baseFragment.loader6.setVisibility(View.VISIBLE);
+                            RestClientImplementation.postSatisifedRequestApi(requestEntity, new PostSatisfiedRequestEntity.UdhiraRestClientInterface() {
+                                @Override
+                                public void onRequestSubmit(ErrorEntity errorEntity, VolleyError error) {
+                                    if(error==null){
+                                        baseFragment.rvBloodRequest.setVisibility(View.VISIBLE);
+                                        baseFragment.loader6.setVisibility(View.GONE);
+                                        bloodRequests.get(position).setIsSatisfied(1);
+                                        notifyDataSetChanged();
+                                        baseFragment.scrollToPosition(position);
+                                        Toast.makeText(context,errorEntity.getMessage(),Toast.LENGTH_LONG).show();
+                                    }else {
+                                        Log.d("BloodReqAdap","RequestFailed");
+                                        baseFragment.rvBloodRequest.setVisibility(View.VISIBLE);
+                                        baseFragment.loader6.setVisibility(View.GONE);
+
+                                    }
+                                }
+                            },context);
+                        }
+                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).setTitle("Request Status").show();
+                }else {
+                    Toast.makeText(context,"Request Satisfied already",Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -90,9 +144,11 @@ public class BloodRequestsRecyclerViewAdapter extends RecyclerView.Adapter<Blood
     public class BloodRequestsRecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView te1,te2,te3,te4,te5,te6,te7,te8;
         TextView StatusTv,tvCallPatient;
+        CardView card;
         public BloodRequestsRecyclerViewHolder(View itemView) {
             super(itemView);
             StatusTv=(TextView)itemView.findViewById(R.id.tvRequestStatus);
+            card=(CardView)itemView.findViewById(R.id.cardOne);
             te1=(TextView) itemView.findViewById(R.id.te1);
             te2=(TextView) itemView.findViewById(R.id.te2);
             te3=(TextView) itemView.findViewById(R.id.te3);

@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:id="@+id/headerRl"
-        android:background="@color/colorAccent"
-        >
+        android:background="@color/colorAccent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,6 +16,7 @@
             android:text="Admin"
             android:textColor="#ffff"
             android:textSize="26dp"
+            android:drawableLeft="@drawable/admin_icon"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
     <RelativeLayout
@@ -24,9 +24,16 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/headerRl"
         android:id="@+id/content_main_two"
-        android:layout_above="@+id/navigation2">
+        android:layout_above="@+id/seperator2">
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FF0000"
+        android:id="@+id/seperator2"
+        android:orientation="horizontal"
+        android:layout_above="@+id/navigation2">
+    </LinearLayout>
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation2"
         android:layout_width="match_parent"

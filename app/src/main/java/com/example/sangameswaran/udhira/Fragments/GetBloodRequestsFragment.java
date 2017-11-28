@@ -31,11 +31,11 @@ import java.util.List;
  */
 
 public class GetBloodRequestsFragment extends Fragment {
-    RecyclerView rvBloodRequest;
+    public RecyclerView rvBloodRequest;
     RecyclerView.LayoutManager manager;
     BloodRequestsRecyclerViewAdapter adapter;
     List<String> bloodGroups;
-    RelativeLayout loader6;
+    public RelativeLayout loader6;
     List<GetBloodRequestEntity> bloodRequests;
     @Nullable
     @Override
@@ -64,7 +64,7 @@ public class GetBloodRequestsFragment extends Fragment {
                         if(error==null){
                             loader6.setVisibility(View.GONE);
                             bloodRequests=getAllBloodRequestsApiEntity.getMessage();
-                            adapter=new BloodRequestsRecyclerViewAdapter(bloodRequests,bloodGroups,getActivity());
+                            adapter=new BloodRequestsRecyclerViewAdapter(bloodRequests,bloodGroups,getActivity(),GetBloodRequestsFragment.this);
                             rvBloodRequest.setLayoutManager(manager);
                             rvBloodRequest.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
@@ -82,5 +82,9 @@ public class GetBloodRequestsFragment extends Fragment {
         },getContext());
 
         return v;
+    }
+
+    public void scrollToPosition(int position){
+        rvBloodRequest.scrollToPosition(position);
     }
 }
