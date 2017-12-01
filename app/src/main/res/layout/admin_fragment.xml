@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:id="@+id/etadminUserName"
             android:hint="Enter UserName"
+            android:inputType="text"
             android:drawableLeft="@drawable/user_icon"/>
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
