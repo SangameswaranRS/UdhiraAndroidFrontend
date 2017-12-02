@@ -22,6 +22,13 @@
             android:textSize="30dp"
             android:textColor="#ffff"
             android:drawableLeft="@drawable/blood_icn_white"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_name"
+            android:layout_alignParentRight="true"
+            android:id="@+id/IvInfo"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/gps_icon_white"
+        android:src="@drawable/zoom_out_icon"
         android:id="@+id/fab"
         android:layout_centerVertical="true"/>
 

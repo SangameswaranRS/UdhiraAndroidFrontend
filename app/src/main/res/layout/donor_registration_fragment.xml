@@ -10,11 +10,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/containerLinear"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:visibility="visible">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/one_text_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Information"
+                android:textColor="@color/yel"
+                android:layout_toRightOf="@+id/imDr11"
+                android:paddingTop="7dp"/>
+            <ImageView
+                android:id="@+id/imDr11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/number_one" />
+        </RelativeLayout>
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="0dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -35,10 +54,52 @@
                 android:id="@+id/etDonorContactNumber"
                 android:hint="enter donor's contact number"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textAutoComplete"
+                android:id="@+id/etDonorAddress"
+                android:drawableLeft="@drawable/location_icon"
+                android:hint="enter donor's address"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textAutoComplete"
+                android:id="@+id/etDonorName"
+                android:drawableLeft="@drawable/user_icon"
+                android:hint="enter donor's Name"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/one_text_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medical information"
+                android:textColor="@color/yel"
+                android:layout_toRightOf="@+id/imDr12"
+                android:paddingTop="7dp"/>
+            <ImageView
+                android:id="@+id/imDr12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/number_two" />
+        </RelativeLayout>
+
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:id="@+id/bloodGroupSpinner">
         </Spinner>
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -99,38 +160,13 @@
                 android:drawableLeft="@drawable/issue_icon"
                 android:hint="Is there any health issues for the donor?"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textAutoComplete"
-                android:id="@+id/etDonorAddress"
-                android:drawableLeft="@drawable/location_icon"
-                android:hint="enter donor's address"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textAutoComplete"
-                android:id="@+id/etDonorName"
-                android:drawableLeft="@drawable/user_icon"
-                android:hint="enter donor's Name"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
         <Button
             android:id="@+id/registerBtn"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Register"
-            android:layout_marginBottom="75dp"
+            android:layout_marginBottom="10dp"
             android:textColor="#ffff" />
     </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -1,5 +1,6 @@
 package com.example.sangameswaran.udhira;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public GoogleMap map;
     public List<LatLng> bounds;
     FloatingActionButton fab;
+    ImageView ivInfo;
 
     @Override
     public void onBackPressed() {
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         fab=(FloatingActionButton)findViewById(R.id.fab);
         contentMain=(RelativeLayout)findViewById(R.id.content_main);
+        ivInfo=(ImageView) findViewById(R.id.IvInfo);
         donationCentreEntities=new ArrayList<>();
         bounds=new ArrayList<>();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -116,12 +122,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 relativeZoom(bounds);
             }
         });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(MainActivity.this," Relative Zoom / Zoom out ",Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
+        ivInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,InfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void plotCentres() {
         if(map!=null && donationCentreEntities.size()>0){
             for(DonationCentreEntity iterator :donationCentreEntities){
-                map.addMarker(new MarkerOptions().position(new LatLng(iterator.getLattitude(),iterator.getLongitude())).title(iterator.getCentreName()));
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.map_marker_blue);
+                map.addMarker(new MarkerOptions().position(new LatLng(iterator.getLattitude(),iterator.getLongitude())).title(iterator.getCentreName()).icon(icon));
                 bounds.add(new LatLng(iterator.getLattitude(),iterator.getLongitude()));
             }
             relativeZoom(bounds);

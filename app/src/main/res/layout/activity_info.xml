@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@color/colorAccent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableLeft="@drawable/ic_action_name"
+        android:text="About Us"
+        android:textSize="25dp"
+        android:textColor="#ffff"/>
+</RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="History of Initiative"
+                android:textColor="@color/yel"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="      “UDHIRA” is one of the best ever blood donation camp conducted inside the college premises of Anna University. NCC - Army wing of 1 (TN) - CTC unit has been always trying to extend their arm to lift up the society in all possible ways. Attending many meets and social events gave our Cadets of our batch courage to move a step ahead by conducting one. UDHIRA became our first initiative towards which our expectations and hard works were intensified at equal rates. Even with the little time left, our unity lead us to the road of success. That helped us learn “with organized efforts even climbing feels like a walk in the park”. Against all odds UDHIRA was first conducted with the help of CANCER INSTITUTE of Adyar on 31st January of 2017. "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Success Rate"
+                android:textColor="@color/yel"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="      UDHIRA unexpectedly turned into a over-successful event surprising everyone of us. We reached beyond our target units and got entries from incapable donors who checked in on the event day.  It turned out to be the most successful camp in the past few years conducted by any of the organizations in the university (even the ones conducting the donation camps for years). The staffs from hospital who accompanied us conducting the event got astonished on seeing the over whelming response and intimated us to carry out it in a larger scale city wide. These pleasant reactions from various groups of people ignited us to come back again with more interesting events for social betterments."/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Why Udhira? "
+                android:textColor="@color/colorAccent"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="      While titling the event we wanted it to reflect not only the purpose(blood donation) but also our actions. And as a part of a national governmental organization we needed to express it in our national language. Hence suiting our relentless active working capacity as a metaphor to a young blood gushing through the blood vessels of a teenager, we named it “UDHIRA”."
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About the organizers "
+                android:textColor="@color/yel"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="      The event was in and out organized by the army cadets of Anna University. We belong to the first and oldest NCC unit [1 (TN) – CTC] of the nation. Our organization preaches stubborn kids to become tough and kind and soft kids to be bold and brave. It is one of the most reputable organizations of the nation and turns out to be our army’s second line in defense. We have been trained both physically and mentally to inherit the commandment of service before self. Our motto “Unity and Discipline” is enough to describe what we are and how we do things. We are always a group of elite engineers from various disciplines united by spirit and commands. We have solution to every problem we face, all we need to do is to sit and exchange the piece of information we have.
+We would like to thank our Associate NCC officers and Army unit officials for fueling our service fire by standing beside us in all our initiatives.
+"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Tech team "
+                android:textSize="16dp"
+                android:textColor="@color/colorPrimary"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Android development, Server Scripting,Deployment - CSM Sangameswaran.R.S"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Web development - Cpl Gokul.K"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Contents - Cpl Jagan Mohan.E and Dhuwarakesh.R"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

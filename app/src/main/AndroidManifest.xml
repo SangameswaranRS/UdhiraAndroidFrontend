@@ -22,9 +22,11 @@
             android:value="@string/google_maps_key" />
         <activity android:name=".AdminFunctionsActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
-
+        <activity android:name=".InfoActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
