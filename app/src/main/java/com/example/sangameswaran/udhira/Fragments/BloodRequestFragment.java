@@ -99,13 +99,17 @@ public class BloodRequestFragment extends Fragment {
                 if(PatientAge.equals("")||PatientName.equals("")||PatientHospital.equals("")||Reason.equals("")||PatientContactNumber.equals("")||bloodId==0||emergencyStatus==0){
                     Toast.makeText(getActivity(),"Enter all the details to raise request",Toast.LENGTH_LONG).show();
                 }else {
+                    bloodRequestFragmentLoader.setVisibility(View.VISIBLE);
+                    bloodRequestFragmentContainer.setVisibility(View.GONE);
                     BloodRequestEntity bloodRequestEntity=new BloodRequestEntity(bloodId,age,emergencyStatus,isSatisfied,PatientName,PatientHospital,Reason,PatientContactNumber,userEmailId);
                     RestClientImplementation.postBloodRequestApi(bloodRequestEntity, new BloodRequestEntity.UdhiraRestClientInterface() {
                         @Override
                         public void onRequestBlood(BloodRequestEntity bloodRequestEntity, VolleyError error) {
                             if(error==null){
+                                bloodRequestFragmentContainer.setVisibility(View.VISIBLE);
+                                bloodRequestFragmentLoader.setVisibility(View.GONE);
                                 AlertDialog.Builder successAlert=new AlertDialog.Builder(activityContext);
-                                successAlert.setCancelable(false).setTitle("Request Raised Successfully").setMessage("Your Request have been raised successfully please wait for the donors t0 contact you").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                successAlert.setCancelable(false).setTitle("Request Raised Successfully").setMessage("Your Request have been raised successfully please wait for the donors to contact you").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.cancel();
@@ -113,6 +117,9 @@ public class BloodRequestFragment extends Fragment {
                                         getFragmentManager().beginTransaction().replace(R.id.content_main,fragment).commit();
                                     }
                                 }).show();
+                            }else {
+                                bloodRequestFragmentContainer.setVisibility(View.VISIBLE);
+                                bloodRequestFragmentLoader.setVisibility(View.GONE);
                             }
                         }
                     },activityContext);

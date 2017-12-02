@@ -112,11 +112,13 @@ public class DonorRegistrationFragment extends Fragment {
                 }else {
                     DonorRegistrationEntity entity = new DonorRegistrationEntity(userEmailId, donorEmailId, donorContactNumber, gender, donorWeight, dateOfBirth, donorAddress, donationComments, bloodGroupId,donorName);
                     loader2.setVisibility(View.VISIBLE);
+                    containerLinear.setVisibility(View.GONE);
                     RestClientImplementation.postDonorInfoApi(entity, new DonorRegistrationEntity.UdhiraRestClientInterface() {
                         @Override
                         public void onSubmitDonorDetails(DonorRegistrationEntity donorRegistrationEntity, VolleyError error) {
                             if(error==null){
                                 loader2.setVisibility(View.GONE);
+                                containerLinear.setVisibility(View.VISIBLE);
                                 AlertDialog.Builder successResponse=new AlertDialog.Builder(activityContext);
                                 successResponse.setTitle("Donor Registered").setMessage("Donor Info Successfully registered").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
@@ -128,6 +130,7 @@ public class DonorRegistrationFragment extends Fragment {
                                 }).show();
                             }else {
                                 loader2.setVisibility(View.GONE);
+                                containerLinear.setVisibility(View.VISIBLE);
                             }
                         }
                     },activityContext);
