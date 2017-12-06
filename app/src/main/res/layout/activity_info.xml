@@ -78,34 +78,13 @@
 We would like to thank our Associate NCC officers and Army unit officials for fueling our service fire by standing beside us in all our initiatives.
 "/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=" Tech team "
-                android:textSize="16dp"
-                android:textColor="@color/colorPrimary"
-                android:textAlignment="center"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="Android development, Server Scripting,Deployment - CSM Sangameswaran.R.S"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="Web development - Cpl Gokul.K"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="Contents - Cpl Jagan Mohan.E and Dhuwarakesh.R"/>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="App and website design- Tech team of NCC Army Anna University"
+            android:textColor="@color/green"
+            android:textSize="19dp"
+            android:textAlignment="center"/>
         </LinearLayout>
 
     </ScrollView>
