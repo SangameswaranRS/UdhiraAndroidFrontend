@@ -5,6 +5,6 @@ package com.example.sangameswaran.udhira.Constants;
  */
 
 public class Constants {
-    public static String BASE_URL ="http://ec2-34-215-171-85.us-west-2.compute.amazonaws.com:5960/server/api";
+    public static String BASE_URL ="http://ec2-34-215-171-85.us-west-2.compute.amazonaws.com:443/server/api";
 
 }

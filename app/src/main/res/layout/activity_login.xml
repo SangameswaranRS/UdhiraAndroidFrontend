@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"/>
     <TextView
-        android:text="Copyright@NCC Army Anna University"
+        android:text="Copyright \u00a9 NCC Army Anna University"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
