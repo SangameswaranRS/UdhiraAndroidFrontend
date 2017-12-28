@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
+                            //Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
                             progressLL.setVisibility(GONE);
                             containerll.setVisibility(View.VISIBLE);
                             tvLoginButton.setVisibility(View.VISIBLE);
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this,loginEntity.getImeiIndex(),Toast.LENGTH_LONG).show();
                     progressLL.setVisibility(GONE);
                     containerll.setVisibility(View.VISIBLE);
                     tvSignupGateway.setVisibility(View.VISIBLE);

@@ -43,10 +43,13 @@
                 android:textColor="@color/yel"
                 android:textSize="16dp"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="      UDHIRA unexpectedly turned into a over-successful event surprising everyone of us. We reached beyond our target units and got entries from incapable donors who checked in on the event day.  It turned out to be the most successful camp in the past few years conducted by any of the organizations in the university (even the ones conducting the donation camps for years). The staffs from hospital who accompanied us conducting the event got astonished on seeing the over whelming response and intimated us to carry out it in a larger scale city wide. These pleasant reactions from various groups of people ignited us to come back again with more interesting events for social betterments."/>
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +63,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="      While titling the event we wanted it to reflect not only the purpose(blood donation) but also our actions. And as a part of a national governmental organization we needed to express it in our national language. Hence suiting our relentless active working capacity as a metaphor to a young blood gushing through the blood vessels of a teenager, we named it “UDHIRA”."
+                android:text="      While titling the event we wanted it to reflect not only the purpose(blood donation) but also our actions. And as a part of a national governmental organization we needed to express it in Thamizh. Hence suiting our relentless active working capacity as a metaphor to a young blood gushing through the blood vessels of a teenager, we named it “UDHIRA”."
                 />
             <TextView
                 android:layout_width="wrap_content"
